@@ -21,7 +21,8 @@ public class Controller {
     public final AuthenticationManager authenticationManager;
     public final FileService fileService;
 
-    public Controller(AuthenticationManager authenticationManager, FileService fileService) {
+    public Controller(AuthenticationManager authenticationManager,
+                      FileService fileService) {
         this.authenticationManager = authenticationManager;
         this.fileService = fileService;
     }
@@ -38,7 +39,7 @@ public class Controller {
     public void fileUpload(MultipartFile newFile) {
         fileService.addFile(newFile);
     }
-
+    
     @GetMapping("/file")
     public ResponseEntity<byte[]> getFile(@RequestParam("fileName") String fileName) {
         return ResponseEntity
@@ -53,7 +54,8 @@ public class Controller {
     }
 
     @PutMapping("/file")
-    public void updateFile(@RequestParam("fileName") String existingFileName, @RequestBody NewFileNameUpload newFileName) {
+    public void updateFile(@RequestParam("fileName") String existingFileName,
+                           @RequestBody NewFileNameUpload newFileName) {
         fileService.updateFile(existingFileName, newFileName);
     }
 

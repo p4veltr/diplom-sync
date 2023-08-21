@@ -16,6 +16,7 @@ public interface FileRepository extends JpaRepository<FileEntry, Long> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query("update FileEntry file  set file.fileName = :filename  where file.id = :id")
-    void updateFile(@Param("filename") String fileName, @Param("id") Long id);
+    @Query("update FileEntry file set file.fileName = :filename  where file.id = :id")
+    void updateFile(@Param("filename") String fileName,
+                    @Param("id") Long id);
 }

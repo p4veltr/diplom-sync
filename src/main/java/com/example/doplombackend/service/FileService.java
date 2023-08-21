@@ -59,7 +59,7 @@ public class FileService {
     @Transactional
     public List<FileEntryView> getFiles(int limit) {
         List<FileEntry> filesList = fileRepository.findAll();
-        List<FileEntryView> filesForThisPage = new ArrayList<>(limit);
+        List<FileEntryView> filesForThisPage = new ArrayList<>();
         for (int i = 0; i < filesList.size(); i++) {
             if (i == limit) break;
             FileEntry file = filesList.get(i);

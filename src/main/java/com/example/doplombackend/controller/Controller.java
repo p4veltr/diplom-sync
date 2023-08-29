@@ -4,6 +4,7 @@ import com.example.doplombackend.model.auth.LoginData;
 import com.example.doplombackend.model.auth.LoginRespond;
 import com.example.doplombackend.model.clientCustomResponses.FileEntryView;
 import com.example.doplombackend.model.clientCustomResponses.NewFileNameUpload;
+import com.example.doplombackend.service.AuthTokenService;
 import com.example.doplombackend.service.FileService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 public class Controller {
-    public AuthenticationManager authenticationManager;
-    public FileService fileService;
+    public final AuthenticationManager authenticationManager;
+    public final FileService fileService;
+    public final AuthTokenService authTokenService;
 
     public Controller(AuthenticationManager authenticationManager,
-                      FileService fileService) {
+                      FileService fileService,
+                      AuthTokenService authTokenService) {
         this.authenticationManager = authenticationManager;
         this.fileService = fileService;
+        this.authTokenService = authTokenService;
     }
 
     @PostMapping("/login")
@@ -32,7 +36,7 @@ public class Controller {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginData.login(),
                 loginData.password()));
-        return new LoginRespond(authentication.toString());
+        return new LoginRespond(authTokenService.generateToken(authentication));
     }
 
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")

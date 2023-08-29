@@ -12,20 +12,17 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.stereotype.Component;
 
 @Component
-@EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.cors(Customizer.withDefaults())
+        return http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(x -> x.requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exc -> exc.authenticationEntryPoint(
                         new LoginUrlAuthenticationEntryPoint("http://localhost:8081/login"))
                 )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-        return http.build();
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .build();
     }
 }

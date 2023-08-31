@@ -30,6 +30,7 @@ public class AuthTokenService {
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(nowInstant)
+                .expiresAt(nowInstant.plus(1, ChronoUnit.HOURS))
                 .expiresAt(nowInstant.plus(15, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope", scope)
